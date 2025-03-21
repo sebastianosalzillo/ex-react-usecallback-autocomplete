@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Card from './Card'
 import './App.css'
 
@@ -23,7 +23,7 @@ function App() {
 
 
 
-  // debounc 
+  // debounce
   useEffect(() => {
     const timeout = setTimeout(() => {
       setDebouncedValue(value)
@@ -32,12 +32,13 @@ function App() {
   }, [value])
 
 
-  let dataFiltrati = prodotti.filter(d => d.title.includes(debouncedValue.toLocaleLowerCase))
+  const dataFiltrati = prodotti.filter(d =>
+    d.title.toLowerCase().includes(debouncedValue.toLowerCase())
+  )
 
-
-  function handleChange(e) {
-    setValue(e.target.value)
-  }
+  const handleChange = useCallback((e) => {
+    setValue(e.target.value);
+  }, []);
 
 
   return (
